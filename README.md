@@ -5,11 +5,17 @@ A little toy project to handle some python, django and DB.
 
 ## Files and dirs
 
-### rpgarchive
+
+### . directory
+ * **db.sqlite3**: for a start we begin with a simple flat db, it is stored here
+
+
+### rpgarchive directory
 The project directory, holds most of the general settings
 
-### archive
+### archive directory
 At least at the beginning of the development, the whole application will be considered a single django application named archive. Everything will then be dumped here.
+
 
 ## My django Odyssee step by step
 
@@ -24,6 +30,7 @@ cd mysite; python manage.py runserver
 # start the archive app in the current project
 python manage.py startapp archive
 ```
+
 
 ### Creating Models
 Models are the database objects, they are written under archive/models.py.
@@ -65,4 +72,31 @@ Therefore, it is necessary to explicitely name at least one of the two links, su
 ```python
   linked_user = models.ForeignKey(User, related_name='linked_player', null=True, on_delete=models.SET_NULL)
   owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
+```
+
+
+
+### Let's start to populate the DB
+```bash
+# let's create a superuser
+python manage.py createsuperuser
+# and let's run the surver and access the admin webpage
+./manage.py runserver
+firefox http://127.0.0.1:8000/admin/
+```
+In order to allow access to the models in the admin pannel, edit archive/admin and add
+```python
+from .models import Author, Universe, Scenario, Cycle, Session, Player
+admin.site.register([Author, Universe, Scenario, Cycle, Session, Player])
+```
+Starting from there, it is possible to start and fill up the DB through the admin pannel.
+The DB can also be filled and interrogated from a shell session
+```bash
+python manage.py shell
+>>> from archive.models import Cycle
+>>> Cycle.objects.filter(codename__startswith="Old")
+<QuerySet [<Cycle: Oldies like cake too>]>
+>>> Cycle.objects.filter(codename__contains="Old")
+<QuerySet [<Cycle: Oldies like cake too>]>
+Cycle.objects.filter(scenario__title__contains="Yverssaire")
 ```
