@@ -14,10 +14,10 @@ from .models import Universe, Scenario, Author, Cycle, Session, Player
 #   DEFAULT FIRST VIEW
 @login_required
 def index(request):
-    lines=["Hello {0}, here are your ongoing games:".format(request.user.username),"<ul>"]
-    ql=Cycle.objects.filter(owner_user = request.user.pk)
-    for c in ql:
-        lines.append("<li><a href='cycle/{0}'>{1}</a></li>".format(c.pk,c.codename))
-    lines.append("</ul>")
-
-    return HttpResponse("\n".join(lines))
+    template_name = 'archive/index.html'
+    template = loader.get_template(template_name)
+    my_list_of_cycles=Cycle.objects.filter(owner_user = request.user.pk)
+    context = {
+        'my_list_of_cycles' : my_list_of_cycles
+    }
+    return HttpResponse(template.render(context, request))

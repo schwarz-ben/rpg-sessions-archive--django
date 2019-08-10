@@ -108,7 +108,6 @@ We need to start and map urls in the application.
 So, first we edit `rpgarchive/urls.py` and add `path('archive/', include('archive.urls'))` to the list.
 Then, in `archive/urls.py` we can start and map archive urls to existing views
 #### Refactoring the index view
-We'll control the layout through a template file that we create in archive/templates/archive/index.html
-
-
-We derive our class view from generic.ListView in order to benefit from the generic ListView
+In order to better separate the controler and the view (MVC style), we extract as much view related stuff from the view.py file (the namme is somehow missleading, in the end we'd like the view.py file to be essentiially the controler.).
+We'll control the layout through a template file that we create in `archive/templates/archive/index.html`
+and some css file in `archive/static/archive`.
