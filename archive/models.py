@@ -33,8 +33,29 @@ class Session(models.Model):
     # This is where we connect our many to many to the Player table
     players = models.ManyToManyField(Player)
 
+    def findPreviousSession(self):
+        """returns the previous session, or None if there is none
+        NB: there shouldn't be everal previous sessions, and the method should
+        raise an error if this occurs"""
+        qs=Session.objects.filter(nextSession=self.pk)
+        if qs.exists():
+            return qs.get()
+        else:
+            return None
+
+    def findRelatedCycle(self):
+        """ returns the cycle to which this session is attached, or None if none could be found
+         Note that there SHOULD be one cycle, otherwise this should be considered a major bug"""
+        s=self
+        while s is not None:
+            sp = s
+            s = s.findPreviousSession()
+        return Cycle.objects.filter(firstSession=sp.pk).get()
+
     def __str__(self):
-        return
+        # return "<{0}-->{1}| '{2}' >".format(self.pk, "X" if self.nextSession is None else self.nextSession.pk, str(self.findRelatedCycle()))
+        # return "<{0}>".format(self.pk)
+        return "<{0}-->{1}>".format(self.pk, ("X" if self.nextSession is None else self.nextSession.pk) )
 
 class Cycle(models.Model):
     NOT_YET_STARTED = "X--"; LABEL_NOT_YET_STARTED = "Pas commencé"
@@ -53,7 +74,12 @@ class Cycle(models.Model):
     owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.codename + " ("+self.scenario.title+")"
+        retVal = ""
+        if self.codename is not None:
+            retVal += self.codename
+        if self.scenario.title is not None:
+            retVal += " ("+self.scenario.title+")"
+        return retVal
 
 # # relation ManyToMany joueur *participe à* session
 # # NB: it seems django can handle that automatically with ManyToManyField field
@@ -82,6 +108,8 @@ class Scenario(models.Model):
     #document <-- At some point we might want to be able to store the documeent
     universe = models.ForeignKey(Universe,null=False, on_delete=models.PROTECT)
     owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #author = models.ForeignKey('Author',on_delete=models.SET_NULL)
+    author = models.ManyToManyField('Author')
 
     def __str__(self):
         return self.title
@@ -92,7 +120,7 @@ class Author(models.Model):
         help_text="Comment peut-on contacter l'auteur ?")
     owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
     #
-    scenarios = models.ManyToManyField(Scenario)
+    # scenarios = models.ManyToManyField(Scenario)
 
     def __str__(self):
         return self.name
