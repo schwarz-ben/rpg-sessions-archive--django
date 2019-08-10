@@ -7,17 +7,16 @@ from django.views import generic
 #from django.utils import timezone
 
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Universe, Scenario, Author, Cycle, Session, Player
 
-#
-#   DEFAULT FIRST VIEW
-@login_required
-def index(request):
+
+class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'archive/index.html'
-    template = loader.get_template(template_name)
-    my_list_of_cycles=Cycle.objects.filter(owner_user = request.user.pk)
-    context = {
-        'my_list_of_cycles' : my_list_of_cycles
-    }
-    return HttpResponse(template.render(context, request))
+    context_object_name = 'my_list_of_cycles'
+
+    def get_queryset(self):
+        """Return all cycles that belong to the connected user
+        """
+        # return Cycle.objects.filter(owner_user = user.pk)
+        return Cycle.objects.filter(owner_user = self.request.user.pk)

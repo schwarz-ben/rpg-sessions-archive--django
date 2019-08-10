@@ -107,7 +107,11 @@ We make use of the `@login_required` class decorator to enforce connection.
 We need to start and map urls in the application.
 So, first we edit `rpgarchive/urls.py` and add `path('archive/', include('archive.urls'))` to the list.
 Then, in `archive/urls.py` we can start and map archive urls to existing views
-#### Refactoring the index view
+#### Refactoring the index view to use templates and css
 In order to better separate the controler and the view (MVC style), we extract as much view related stuff from the view.py file (the namme is somehow missleading, in the end we'd like the view.py file to be essentiially the controler.).
 We'll control the layout through a template file that we create in `archive/templates/archive/index.html`
 and some css file in `archive/static/archive`.
+#### Refactoring the index view to make use of generic views
+Most of the modifications take place in `models.py` where the index view function has been replaced by a class derived from a view.
+The `url.py` file is also impacted: we don't call a function anymore, but we call `the as_view()` method of the class.
+Note that `@login_required` is not available on classes, and to enforce login (since django 1.9) we can derive from `LoginRequiredMixin`; another possibility is to insert the template call in a `login_required( ... )` in the `url.py` file.
