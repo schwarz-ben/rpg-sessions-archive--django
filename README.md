@@ -100,3 +100,15 @@ python manage.py shell
 <QuerySet [<Cycle: Oldies like cake too>]>
 Cycle.objects.filter(scenario__title__contains="Yverssaire")
 ```
+### Let's start to create views
+#### First index view
+First, in the archive/views.py we create the first view that will show all cycles for the connected user.
+We make use of the `@login_required` class decorator to enforce connection.
+We need to start and map urls in the application.
+So, first we edit `rpgarchive/urls.py` and add `path('archive/', include('archive.urls'))` to the list.
+Then, in `archive/urls.py` we can start and map archive urls to existing views
+#### Refactoring the index view
+We'll control the layout through a template file that we create in archive/templates/archive/index.html
+
+
+We derive our class view from generic.ListView in order to benefit from the generic ListView
