@@ -112,4 +112,53 @@ The `url.py` file is also impacted: we don't call a function anymore, but we cal
 Note that `@login_required` is not available on classes, and to enforce login (since django 1.9) we can derive from `LoginRequiredMixin`; another possibility is to insert the template call in a `login_required( ... )` in the `url.py` file.
 
 ## Let's fool around with templates
-###
+ * `{% block name %}` allows to define block area in a parent template, say parent.html
+ * Another template can then derive from this template, suffice to start with `{% extends "parent.html" %}`
+ * In this child template one can fillup the blocks `{% block name %}` that were defined in the parent
+
+## Let's polish all this login/logout stuff
+It turns out I was able to play around on my webstite because I started with some connection on the admin page, and that this page redirected me on some login process.
+After that, I was automatically session based connected.
+Now I inserted a logout button that disconnected me, and this is the good moment to investigate this whole login/logout process.
+We won't deal with this ourselves, and instead we'll use the Models, protocols and whatever template that django provides as a default.
+
+As a default, django installs the auth app that handles authentication (cf `settings` in `INSTALLED_APPS`).
+
+We then should make sure we give access to the authentication pages.
+For instance adding
+`path('accounts/', include('django.contrib.auth.urls'))`
+in the project `url.py`.
+
+Default views are also provided in the `auth` package, which we will use, but we'll need to write templates.
+When it comes to login, as a default django looks for a `login.html` template in a global `Templates/registration` directory.
+
+it is then necessary to add this new path `os.path.join(BASE_DIR, 'templates')` to the `TEMPLATE.DIR` field of the global `settings` file.
+
+Finally in the same `RPGArchive/settings.py` file we can set `LOGIN_REDIRECT_URL=/archive` to automatically redirect the user to this page upon correct login.
+
+## Dumping here a few technical gore elements
+### User authentication and permissions
+#### In the code
+
+for view fonctions
+```python
+@login_required
+@permission_required('polls.can_vote', raise_exception=True)
+def my_view(request):
+```
+With Class based views
+```python
+from django.contrib.auth.mixins import UserPassesTestMixin
+def my_view(request):
+    if not request.user.is_authenticated:
+class MyView(UserPassesTestMixin, View):
+```
+
+#### In template files
+```
+@permission_required('polls.can_vote', login_url='/loginpage/')
+{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
+{% if perms.foo %}
+{% if perms.foo.can_vote %}
+```

@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.views import generic
 #from django.utils import timezone
 
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Universe, Scenario, Author, Cycle, Session, Player
@@ -20,3 +21,10 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         """
         # return Cycle.objects.filter(owner_user = user.pk)
         return Cycle.objects.filter(owner_user = self.request.user.pk)
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect("/archive")
+
+def letMeIn(request):
+    return HttpResponse("let me in !")
