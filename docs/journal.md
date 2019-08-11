@@ -1,8 +1,21 @@
 
-## My django Odyssee step by step
+# My django Odyssee step by step
 
-### Basic stuff
-tutorial https://docs.djangoproject.com/en/2.2/intro/tutorial01/
+## setting github access through ssh on my local repo
+First, I copied my `rsa.pub` file onto the github dedicated page (somewhere under 'my account' --> 'settings' --> 'security' ).
+Then I tested the connection:
+```
+# This worked
+ssh -T git@github.com
+# This didn't work, hence it seemed impossible to connect to my accoun through ssh
+ssh -vT schwarz-ben@github.com
+# but actually, for sad stories like mine, the github staff thought of a hook:
+git remote set-url origin git@github.com:schwarz-ben/rpg-sessions-archive--django.git
+# just check it was registered
+git remote get-url origin
+# And all works fine now
+```
+## Basic stuff
 ```bash
 python -m django --version
 #create a django project
@@ -14,7 +27,7 @@ python manage.py startapp archive
 ```
 
 
-### Creating Models
+## Creating Models
 Models are the database objects, they are written under archive/models.py.
 Once this is done, we tell django to create the tables that correspond to these models.
 Actually, django Models also contain links to related Models (through ForeignKeys and ManyToManyFields),
@@ -57,8 +70,7 @@ Therefore, it is necessary to explicitely name at least one of the two links, su
 ```
 
 
-
-### Let's start to populate the DB
+## Let's start to populate the DB
 ```bash
 # let's create a superuser
 python manage.py createsuperuser
@@ -82,18 +94,22 @@ python manage.py shell
 <QuerySet [<Cycle: Oldies like cake too>]>
 Cycle.objects.filter(scenario__title__contains="Yverssaire")
 ```
-### Let's start to create views
-#### First index view
+
+## Let's start to create views
+### First index view
 First, in the archive/views.py we create the first view that will show all cycles for the connected user.
 We make use of the `@login_required` class decorator to enforce connection.
 We need to start and map urls in the application.
 So, first we edit `rpgarchive/urls.py` and add `path('archive/', include('archive.urls'))` to the list.
 Then, in `archive/urls.py` we can start and map archive urls to existing views
-#### Refactoring the index view to use templates and css
+### Refactoring the index view to use templates and css
 In order to better separate the controler and the view (MVC style), we extract as much view related stuff from the view.py file (the namme is somehow missleading, in the end we'd like the view.py file to be essentiially the controler.).
 We'll control the layout through a template file that we create in `archive/templates/archive/index.html`
 and some css file in `archive/static/archive`.
-#### Refactoring the index view to make use of generic views
+### Refactoring the index view to make use of generic views
 Most of the modifications take place in `models.py` where the index view function has been replaced by a class derived from a view.
 The `url.py` file is also impacted: we don't call a function anymore, but we call `the as_view()` method of the class.
 Note that `@login_required` is not available on classes, and to enforce login (since django 1.9) we can derive from `LoginRequiredMixin`; another possibility is to insert the template call in a `login_required( ... )` in the `url.py` file.
+
+## Let's fool around with templates
+###

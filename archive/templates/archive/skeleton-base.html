@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'archive/style.css' %}">
+    <title>{% block page_title %}RPG Archive base page{% endblock %}</title>
+</head>
+
+<body>
+    <div id="banner-top">
+      <div id="banner-top-left">USER < {{user.username}} ></div>
+      <div id="banner-top-right"><a href="">logout</a></div>
+    </div>
+    <div id="page-content">
+        {% block page_content %}{% endblock %}
+    </div>
+</body>
+</html>

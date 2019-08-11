@@ -1,0 +1,19 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}  Game archive for user: {{user.username}} {% endblock %}
+
+{% block page_content %}
+{% comment %}{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'archive/style.css' %}">
+{% endcomment %}
+Hello {{user.username}}, here are your ongoing games:
+{% if my_list_of_cycles %}
+    <ul>
+    {% for cycle in my_list_of_cycles %}
+    <li><a href="">{{ cycle.codename }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No rpg archive detected for user {{username}}.</p>
+{% endif %}
+{% endblock %}
