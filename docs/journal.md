@@ -136,6 +136,23 @@ it is then necessary to add this new path `os.path.join(BASE_DIR, 'templates')` 
 
 Finally in the same `RPGArchive/settings.py` file we can set `LOGIN_REDIRECT_URL=/archive` to automatically redirect the user to this page upon correct login.
 
+## Making a view for each cycle
+###Parsing through ManyToMany fields to reach the players
+#### In the code
+```python
+>>> from archive.models import Session,Cycle,Player
+>>> s=Session.objects.get(pk=1)
+>>> s.players.all()
+<QuerySet [<Player: alexerbidou>, <Player: Nicoriss>, <Player: ArnO>]>
+>>> p = s.players.get(pk=1)
+>>> p.session_set.all()
+```
+#### In a template
+```
+[{% for p in cycle.firstSession.players.all %}{{p.nickName}}, {% endfor %}]
+```
+
+
 ## Dumping here a few technical gore elements
 ### User authentication and permissions
 #### In the code

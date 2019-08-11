@@ -26,5 +26,21 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect("/archive")
 
-def letMeIn(request):
-    return HttpResponse("let me in !")
+def cycle_view(request,Cycle_id):
+    # retrieving the cycle or redirect to a 404 page
+    cycle = get_object_or_404(Cycle, pk=Cycle_id)
+    if cycle.owner_user.pk != request.user.pk:
+        # print ("{0}!={1}".format(cycle.owner_user,request.user.pk))
+        template_name = 'archive/error.html'
+        context = {
+            'error_message' : "You are not supposed to access this page (this cycle is not yours)!"
+            " <{0}!={1}>".format(cycle.owner_user.pk,request.user.pk)
+        }
+    else:
+        template_name = 'archive/cycle.html'
+        context = {
+            'cycle' : cycle,
+            'my_session_list' : cycle.getRelatedSessions()
+        }
+    template = loader.get_template(template_name)
+    return HttpResponse(template.render(context, request))

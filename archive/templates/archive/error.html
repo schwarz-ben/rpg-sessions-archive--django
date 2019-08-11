@@ -1,0 +1,14 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}  RPG Archive [{{user.username}}] Error !!! {% endblock %}
+
+{% block page_content %}
+{% comment %}{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'archive/style.css' %}">
+{% endcomment %}
+<h1>Sorry, {{user.username}}, you encountered an error</h1>
+<div id="error">
+{% if error_message %}{{error_message}}{% endif %}
+</div>
+<p>You can try to go back to your <a href="/archive">home directory</a></p>.
+{% endblock %}

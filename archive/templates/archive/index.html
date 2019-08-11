@@ -10,7 +10,7 @@ Hello {{user.username}}, here are your ongoing games:
 {% if my_list_of_cycles %}
     <ul>
     {% for cycle in my_list_of_cycles %}
-    <li><a href="">{{ cycle.codename }}</a></li>
+    <li><a href="/archive/{{cycle.pk}}">{{ cycle.codename }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

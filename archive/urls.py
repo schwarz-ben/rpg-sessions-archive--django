@@ -8,5 +8,5 @@ urlpatterns = [
     #path('', views.index, name='index'),
     path('', views.IndexView.as_view(), name='index'),
     path('logout',views.logout_view,name='logout'),
-    path('LetMeIn',views.letMeIn)
+    path('<int:Cycle_id>/',views.cycle_view,name='cycle'),
 ]

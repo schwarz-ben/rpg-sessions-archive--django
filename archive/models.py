@@ -81,6 +81,22 @@ class Cycle(models.Model):
             retVal += " ("+self.scenario.title+")"
         return retVal
 
+    def getRelatedSessions(self):
+        '''returns the list of sessions attached to this cycle'''
+        retList=[]
+        s = self.firstSession
+        while s is not None:
+            retList.append(s)
+            s=s.nextSession
+        return retList
+
+    def gatherAllPlayers(self):
+        """ returns the list of players that attented at least one session """
+        raise NotImplemented()
+        return []
+
+
+
 # # relation ManyToMany joueur *participe à* session
 # # NB: it seems django can handle that automatically with ManyToManyField field
 # #     in any Model field definition
