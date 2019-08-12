@@ -1,0 +1,16 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}  List of universes for user: {{user.username}} {% endblock %}
+
+{% block page_content %}
+Hello {{user.username}}, here are your registered universes:
+{% if my_universes %}
+    <ul>
+    {% for universe in my_universes %}
+    <li><a href="/archive/universe/{{universe.pk}}">{{ universe.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No universes found for user {{username}}.</p>
+{% endif %}
+{% endblock %}

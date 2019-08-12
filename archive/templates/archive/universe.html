@@ -1,0 +1,12 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}  Scenario {{universe.name}} {% endblock %}
+
+{% block page_content %}
+<p>Hello {{user.username}}, here are detailes about your registered universe:
+<ul>
+  <li>Name: {{universe.name}}</li>
+  <li>Comments: {{universe.comment}}</li>
+</ul>
+</p>
+{% endblock %}

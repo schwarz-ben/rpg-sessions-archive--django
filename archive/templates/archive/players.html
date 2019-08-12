@@ -1,0 +1,16 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}  List of players for user: {{user.username}} {% endblock %}
+
+{% block page_content %}
+Hello {{user.username}}, here are your registered players:
+{% if my_players %}
+    <ul>
+    {% for player in my_players %}
+    <li><a href="/archive/player/{{player.pk}}">{{ player.nickName }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No players found for user {{username}}.</p>
+{% endif %}
+{% endblock %}

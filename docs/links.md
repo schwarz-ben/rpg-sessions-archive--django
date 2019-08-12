@@ -10,6 +10,8 @@
    * [Using the Django authentication system](https://docs.djangoproject.com/en/2.2/topics/auth/default/)
    * More specifically the chapter on [Using the views](https://docs.djangoproject.com/en/2.2/topics/auth/default/#using-the-views)
    * A nice [tuto](https://wsvincent.com/django-user-authentication-tutorial-login-and-logout/)
+ * On django filters (SQL equivalent)
+   * [Field lookups](https://docs.djangoproject.com/en/2.2/ref/models/querysets/#field-lookups) are how you specify the meat of an SQL WHERE clause
 
 ## css
  * Css [quick references](https://www.w3schools.com/css/)

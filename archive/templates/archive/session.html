@@ -1,0 +1,20 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}
+RPG Archive [{{user.username}}] -- Details for game session {{session}}
+{% endblock %}
+
+{% block page_content %}
+{% with cycle=session.getRelatedCycle %}
+<p class="title"> Detail view for game session: {{cycle.codename}} {{session}} </p>
+<p> Scenario: <a href="/archive/scenario/{{cycle.scenario.pk}}">{{cycle.scenario.title}}</a> <p>
+<p> Date: {{session.date}} </p>
+<p> Players:
+  <ul>
+    {% for p in cycle.firstSession.players.all %}
+    <li><a href="/archive/player/{{p.pk}}">{{p.nickName}}</li>
+    {% endfor %}
+  </ul>
+</p>
+{% endwith %}
+{% endblock %}
