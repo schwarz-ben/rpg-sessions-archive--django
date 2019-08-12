@@ -44,3 +44,19 @@ def cycle_view(request,Cycle_id):
         }
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
+
+def session_view(request,Session_id):
+    session = get_object_or_404(Session, pk=Session_id)
+    if session.owner_user.pk != request.user.pk:
+        template_name = 'archive/error.html'
+        context = {
+            'error_message' : "You are not supposed to access this page (this cycle is not yours)!"
+            " <{0}!={1}>".format(cycle.owner_user.pk,request.user.pk)
+        }
+    else:
+        template_name = 'archive/session.html'
+        context = {
+            'session' : session
+        }
+    template = loader.get_template(template_name)
+    return HttpResponse(template.render(context, request))

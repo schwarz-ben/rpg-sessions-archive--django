@@ -7,12 +7,26 @@
 </head>
 
 <body>
+
     <div id="banner-top">
       <div id="banner-top-left">USER < {{user.username}} ></div>
       <div id="banner-top-right"><a href="/archive/logout">logout</a></div>
     </div>
-    <div id="page-content">
-        {% block page_content %}{% endblock %}
+
+    <div id="page-content-container">
+      <div id="page-sidebar">
+        <ul>
+          <li><a href="/archive">Games</a></li>
+          <li><a href="/players">Players</a></li>
+          <li><a href="/scenario">Scenarii</a></li>
+          <li><a href="/universes">Universes</a></li>
+        </ul>
+      </div>
+
+      <div id="page-content">
+          {% block page_content %}{% endblock %}
+      </div>
     </div>
+
 </body>
 </html>

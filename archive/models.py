@@ -33,7 +33,7 @@ class Session(models.Model):
     # This is where we connect our many to many to the Player table
     players = models.ManyToManyField(Player)
 
-    def findPreviousSession(self):
+    def getPreviousSession(self):
         """returns the previous session, or None if there is none
         NB: there shouldn't be everal previous sessions, and the method should
         raise an error if this occurs"""
@@ -43,13 +43,13 @@ class Session(models.Model):
         else:
             return None
 
-    def findRelatedCycle(self):
+    def getRelatedCycle(self):
         """ returns the cycle to which this session is attached, or None if none could be found
          Note that there SHOULD be one cycle, otherwise this should be considered a major bug"""
         s=self
         while s is not None:
             sp = s
-            s = s.findPreviousSession()
+            s = s.getPreviousSession()
         return Cycle.objects.filter(firstSession=sp.pk).get()
 
     def __str__(self):

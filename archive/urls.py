@@ -9,4 +9,5 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('logout',views.logout_view,name='logout'),
     path('<int:Cycle_id>/',views.cycle_view,name='cycle'),
+    path('session/<int:Session_id>/',views.session_view,name='session'),
 ]

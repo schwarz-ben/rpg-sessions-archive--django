@@ -8,7 +8,7 @@ margin: auto;
   border: 1px solid DarkGreen;
   outline-style: double;
   outline-color: Green;
-  background-color: YellowGreen;
+  background-color: Green;
   color : white;
 }
 #banner-top-left {
@@ -36,18 +36,49 @@ margin: auto;
   padding-top: 5px;
   padding-bottom: 5px;
 }
-#page-content {
+#banner-top-right a {
+  color: white;
+  text-decoration: none;
+}
+
+
+
+#page-content-container {
   margin: auto;
   position: relative;  top: 10px; /* shifts the whole block down */
   width:90%;
+}
+
+#page-sidebar {
+  float: left;
+  width:15%;
+  padding: 2px;
+  border: 1px solid DarkGreen;
+  outline-style: double;
+  outline-color: Green;
+  background-color: Green;
+  color : white;
+}
+#page-sidebar li {
+  list-style-type: none;
+}
+#page-sidebar a {
+  color: white;
+  text-decoration: none;
+}
+
+#page-content {
+  float: right;
+  width:80%;
+  padding: 5px;
+
   border: 1px solid DarkGreen;
   outline-style: double;
   outline-color: Green;
   background-color: white;
   color : DarkGreen;
-  align-self:center;
+  /* align-self:center; */
 }
-
-li a {
+#page-content li a {
     color: green;
 }

@@ -6,15 +6,17 @@
 <p class="title">Detail view for game cycle: {{cycle.codename}}</p>
 <p> scenario: <a href="">{{cycle.scenario.title}}</a><p>
 {% if my_session_list %}
+<p> Sessions:
     <ul>
     {% for session in my_session_list %}
       <li>
-        (<a href="">{{ session.pk }}</a>)
+        (<a href="/archive/session/{{session.pk}}">{{ session.pk }}</a>)
         {{session.date}}
         [{% for p in cycle.firstSession.players.all %}{{p.nickName}}, {% endfor %}]
       </li>
     {% endfor %}
     </ul>
+</p>
 {% else %}
     <p>No rpg archive detected for user {{username}}.</p>
 {% endif %}
