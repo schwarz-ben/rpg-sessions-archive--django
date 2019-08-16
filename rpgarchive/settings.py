@@ -23,9 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ryib_1((#5ks^)vqtwfk!_aplr#iix_#a17hy+zzz5n+0rj*he'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+#DEBUG = True
+DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1','192.168.1.8',"rpgarchive.herokuapp.com","0.0.0.0"]
+# ALLOWED_HOSTS = ['192.168.1.8','90.126.146.99']
 
 
 # Application definition
@@ -119,4 +120,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    #os.path.join(BASE_DIR, 'static'),                  # nothing here
+    #os.path.join(BASE_DIR, 'archive','static'),        # this is parsed anyway
+)
 LOGIN_REDIRECT_URL = '/archive'

@@ -160,6 +160,25 @@ Finally in the same `RPGArchive/settings.py` file we can set `LOGIN_REDIRECT_URL
 {% endwith %}
 ```
 
+## Trying for two days to deploy on Heroku
+Walking through the tuto I encountered several problems, the major one in connection with postgresql. Turns out on ubuntu, the sole user is postgresql, so you need to create new users (specifically one with your login name) and give them access to the db_
+ * `psql -U postgres` or `sudo -u postgres psql` to run psql as postgres user
+ * sudo -u postgres createuser schwarz
+ * sudo -u postgres createdb schwarz dbname
+
+
+ SELECT * FROM pg_catalog.pg_tables; → all tables from the db
+ \c db_name to connect to a specific db, then
+ \dt to show tables
+
+
+
+As of now
+
+A [cheat sheet](heroku.md)
+
+
+
 ## Dumping here a few technical gore elements
 ### User authentication and permissions
 #### In the code
