@@ -7,11 +7,14 @@ Hello {{user.username}}, here are your registered sessions:
 {% if my_list_of_sessions %}
     <ul>
     {% for session in my_list_of_sessions %}
+    {% with cycle=session.getRelatedCycle %}
     <li>
       (<a href="/archive/session/{{session.pk}}">{{ session.pk }}</a>)
       {{session.date}}
-      [[ {{ session.players_string }} ]]
+      ( {{ session.players_string }} )
+      [[ {{cycle.codename}} -- {{cycle.scenario.title}} ]]
     </li>
+    {% endwith %}
     {% endfor %}
     </ul>
 {% else %}
