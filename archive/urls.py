@@ -14,6 +14,8 @@ urlpatterns = [
     path("player/<int:Player_id>", views.player_view,name='player'),
     path("scenario", views.scenarii_view,name='scenarii'),
     path("scenario/<int:Scenario_id>", views.scenario_view,name='scenario'),
+    path("authors", views.authors_view,name='authors'),
+    path("author/<int:Author_id>", views.author_view,name='author'),
     path("universe", views.universes_view,name='universes'),
     path("universe/<int:Universe_id>", views.universe_view,name='universe'),
 ]

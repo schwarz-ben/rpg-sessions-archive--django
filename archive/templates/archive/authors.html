@@ -1,0 +1,16 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}  List of authors for user: {{user.username}} {% endblock %}
+
+{% block page_content %}
+Hello {{user.username}}, here are your registered authors:
+{% if my_list_of_authors %}
+    <ul>
+    {% for author in my_list_of_authors %}
+    <li><a href="/archive/author/{{author.pk}}">{{ author.name }}</a> {% if author.contact %}({{ author.contact }}) {% endif %}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No authors found for user {{username}}.</p>
+{% endif %}
+{% endblock %}

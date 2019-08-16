@@ -12,7 +12,7 @@
       <li>
         (<a href="/archive/session/{{session.pk}}">{{ session.pk }}</a>)
         {{session.date}}
-        [{% for p in cycle.firstSession.players.all %}{{p.nickName}}, {% endfor %}]
+        [[ {{ session.players_string }} ]]
       </li>
     {% endfor %}
     </ul>

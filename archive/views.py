@@ -119,6 +119,37 @@ def scenario_view(request,Scenario_id):
 
 
 
+
+def authors_view(request):
+    my_authors=Author.objects.filter( owner_user = request.user.pk )
+    template_name = 'archive/authors.html'
+    context = {
+        'my_list_of_authors' : my_authors
+        }
+    template = loader.get_template(template_name)
+    return HttpResponse(template.render(context, request))
+
+def author_view(request,Author_id):
+    author=Author.objects.get( pk=Author_id )
+    if author.owner_user.pk != request.user.pk:
+        template_name = 'archive/error.html'
+        context = {
+            'error_message' : "You are not supposed to access this page (this author is not yours)!"
+            " <{0}!={1}>".format(author.owner_user.pk,request.user.pk)
+        }
+    else:
+        template_name = 'archive/author.html'
+        context = {
+            'author' : author
+        }
+    template = loader.get_template(template_name)
+    return HttpResponse(template.render(context, request))
+
+
+
+
+
+
 def universes_view(request):
     my_universes=Universe.objects.filter( owner_user = request.user.pk )
     template_name = 'archive/universes.html'

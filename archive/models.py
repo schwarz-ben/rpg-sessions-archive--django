@@ -52,6 +52,10 @@ class Session(models.Model):
             s = s.getPreviousSession()
         return Cycle.objects.filter(firstSession=sp.pk).get()
 
+    def players_string(self):
+        """ returns a coma separated list of nicknames for that session's players """
+        return ", ".join( (p.nickName for p in self.players.all()) )
+
     def __str__(self):
         # return "<{0}-->{1}| '{2}' >".format(self.pk, "X" if self.nextSession is None else self.nextSession.pk, str(self.findRelatedCycle()))
         # return "<{0}>".format(self.pk)
