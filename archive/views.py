@@ -76,7 +76,7 @@ def session_view(request,Session_id):
 
 
 def players_view(request):
-    my_players=Player.objects.filter( owner_user = request.user.pk )
+    my_players=Player.objects.filter( owner_user = request.user.pk ).order_by('nickName')
     template_name = 'archive/players.html'
     context = {
         'my_players' : my_players
