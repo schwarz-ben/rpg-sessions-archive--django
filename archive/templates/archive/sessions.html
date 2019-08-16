@@ -1,0 +1,20 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}  List of sessions for user: {{user.username}} {% endblock %}
+
+{% block page_content %}
+Hello {{user.username}}, here are your registered sessions:
+{% if my_list_of_sessions %}
+    <ul>
+    {% for session in my_list_of_sessions %}
+    <li>
+      (<a href="/archive/session/{{session.pk}}">{{ session.pk }}</a>)
+      {{session.date}}
+      [[ {{ session.players_string }} ]]
+    </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No authors found for user {{username}}.</p>
+{% endif %}
+{% endblock %}

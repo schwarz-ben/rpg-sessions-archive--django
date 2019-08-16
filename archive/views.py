@@ -45,6 +45,18 @@ def cycle_view(request,Cycle_id):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
+
+def sessions_view(request):
+    sessions=Session.objects.filter( owner_user = request.user.pk ).order_by('-date')
+    template_name = 'archive/sessions.html'
+    context = {
+        'my_list_of_sessions' : sessions
+        }
+    template = loader.get_template(template_name)
+    return HttpResponse(template.render(context, request))
+
+
+
 def session_view(request,Session_id):
     session = get_object_or_404(Session, pk=Session_id)
     if session.owner_user.pk != request.user.pk:
