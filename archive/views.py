@@ -104,7 +104,7 @@ def player_view(request,Player_id):
 
 
 def scenarii_view(request):
-    my_scenarii=Scenario.objects.filter( owner_user = request.user.pk )
+    my_scenarii=Scenario.objects.filter( owner_user = request.user.pk ).order_by("universe__name","title")
     template_name = 'archive/scenarii.html'
     context = {
         'my_scenarii' : my_scenarii

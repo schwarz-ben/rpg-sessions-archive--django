@@ -7,7 +7,7 @@ Hello {{user.username}}, here are your registered scenarii:
 {% if my_scenarii %}
     <ul>
     {% for scenario in my_scenarii %}
-    <li><a href="/archive/scenario/{{scenario.pk}}">{{scenario}}</a></li>
+    <li><a href="/archive/scenario/{{scenario.pk}}">{{scenario.title}} ({{scenario.universe.name}})</a></li>
     {% endfor %}
     </ul>
 {% else %}
