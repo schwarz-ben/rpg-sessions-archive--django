@@ -20,6 +20,7 @@ Here, web means that the app should receive web traffic delegated to gunicorn
 ## Deployment and first minutes
  1. `heroku create` (shortcut for `heroku apps:create`): creates an app on the heroku server, prepares the system to receive my app (a default shitty name is provided pacific-citadel-39852) as well as a git remote (default name heroku). You can overide that name : `heroku apps:create rpgarchive`.
  1. `git push heroku master` Push on Heroku, normally a build follows.
+ It is also possible to push non master branches on Heroku, but they won't be deployed. The way to test your banches is by pushing them on heroku's master with `git push heroku testbranch:master`
  1. `heroku ps:scale web=1` Ensures that at least one instance of the app is running
  1. `heroku open` a shortcut to open the app in a browser. NB: it is also possible to lauch the app locally and get a browser access to it with `heroku local` or `heroku local web`
  1. `heroku logs --tail` check logs
@@ -40,6 +41,7 @@ Here, web means that the app should receive web traffic delegated to gunicorn
     * `heroku config:set TIMES=2`
     * `heroku config:unset TIMES`
   * check the environment with `heroku config`
+
 
 ## Database
  * `Heroku pg` more info on db
@@ -80,4 +82,12 @@ from whitenoise.django import DjangoWhiteNoise
 
 application = get_wsgi_application()
 application = DjangoWhiteNoise(application)
+```
+
+## MISC
+
+ * in order to cleanup the remote heroku git repo. Apparently :
+```
+heroku plugins:install heroku-repo
+heroku repo:reset
 ```

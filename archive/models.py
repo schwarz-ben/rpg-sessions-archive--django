@@ -127,6 +127,14 @@ class Scenario(models.Model):
     #author = models.ForeignKey('Author',on_delete=models.SET_NULL)
     author = models.ManyToManyField('Author')
 
+    def author_names(self):
+        """ returns the list of authors """
+        return [a.name for a in self.author.all()]
+
+    def authors_string(self):
+        """ returns a comma separated list of all authors """
+        return ", ".join( (a.name for a in self.author.all()) )
+
     def __str__(self):
         return self.title
 
