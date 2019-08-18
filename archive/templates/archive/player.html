@@ -2,11 +2,18 @@
 
 {% block page_title %}  List of players for user: {{user.username}} {% endblock %}
 
+{% block message %}{{message}}{% endblock %}
 
 {% block page_content_title %}Détail joueur{% endblock %}
 
+{% block page_content_menu %}
+<ul>
+   <li><a href="/archive/player-del/{{player.pk}}">Supprimer</a></li>
+   <li><a href="/archive/player-mod/{{player.pk}}">Modifier</a></li>
+</ul>
+{% endblock %}
+
 {% block page_content %}
-<div>
   <ul>
     <li>Surnom: {{player.nickName}}</li>
     <li>Nom: {%if player.name%}{{player.name}}{%else%}-{%endif%}</li>
@@ -16,5 +23,4 @@
     <li>Utilisateur lié: {{player.linked_user}}</li>
     {% endif %}
   </ul>
-</div>
 {% endblock %}

@@ -13,7 +13,7 @@ margin: auto;
 }
 #banner-top-left {
   float: left;
-  width:45%;
+  width:20%;
   padding 10px;
   align:left;
   text-align:left;
@@ -21,10 +21,21 @@ margin: auto;
   padding-top: 5px;
   padding-bottom: 5px;
 }
+#banner-top-center {
+  float: left;
+  width:60%;
+  padding 10px;
+  align:left;
+  text-align:left;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color:yellowGreen;
+}
 #banner-top-right {
   /* margin: auto; */
   float: right;
-  width:45%;
+  width:15%;
   padding 10px;
   align:right;
   text-align:right;
@@ -70,11 +81,13 @@ margin: auto;
   background-color: yellowGreen;
   color: DarkGreen;
   text-shadow: 3px 3px Green;
-  /* color :pink; */
+   /* line-height:2; */
 }
 #page-content-menu a:hover {
   /* Un peu de kitch n'a jamais tué personne, que diable !*/
   text-shadow: 1px 1px Green;
+  /* text-decoration-style: wavy;
+  text-decoration-line: overline underline; */
 }
 
 #page-content-title

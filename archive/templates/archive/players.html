@@ -2,7 +2,16 @@
 
 {% block page_title %}  List of players for user: {{user.username}} {% endblock %}
 
+{% block message %}{{message}}{% endblock %}
+
 {% block page_content_title %}Liste de mes joueurs{% endblock %}
+
+{% block page_content_menu %}
+<ul>
+   <li><a href="/archive/player-add">+Joueur</a></li>
+</ul>
+{% endblock %}
+
 
 {% block page_content %}
 {% if my_players %}

@@ -1,0 +1,24 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}   {% endblock %}
+
+{% block page_content_title %}Ajouter un joueur{% endblock %}
+
+{% block page_content %}
+{% if mode == "add" %}
+<form action="/archive/player-do-add/" method="post">
+{% elif mode == "mod" %}
+<form action="/archive/player-do-modify/{{player.id}}" method="post">
+{% endif %}
+  {% csrf_token %}
+  <table>
+    <!-- <tr><td><input type="submit" name="submit" value="adding"></td><td></td></tr> -->
+    {{form.as_table}}
+    {% if mode == "add" %}
+      <tr><th></th><td><input type="submit" name="submit" value="Ajouter"></td></tr>
+    {% elif mode == "mod" %}
+      <tr><th></th><td><input type="submit" name="submit" value="Modifier"></td></tr>
+    {% endif %}
+  </table>
+</form>
+{% endblock %}

@@ -165,19 +165,34 @@ Walking through the tuto I encountered several problems, the major one in connec
  * `psql -U postgres` or `sudo -u postgres psql` to run psql as postgres user
  * sudo -u postgres createuser schwarz
  * sudo -u postgres createdb schwarz dbname
+Useful commands under `psql`
+ * `SELECT * FROM pg_catalog.pg_tables;` all tables from the db
+ * `\c db_name` to connect to a specific db, then
+ * `\dt` to show tables
 
+I had a second problem regarding statics, that I finally managed to overcome.
+Details can be found on my [cheat sheet](heroku.md).
 
- SELECT * FROM pg_catalog.pg_tables; → all tables from the db
- \c db_name to connect to a specific db, then
- \dt to show tables
+As of today, the rpgarchive still runs on sqlite3,
 
+## Begining with django Forms
+There seem to be several ways to handle forms with Django.
+ 1. The raw method would consist in writing the form from scratch deriving a defined `Form` class.
+ 1. When the form is pretty close to a given Model, one can use some `Meta class` in the defined `Form` class. This allows to automize the process, while allowing some personalization.
+ 1. When the form is realy close to the model, one can use a Form factory `from django.forms import modelform_factory`
 
-
-As of now
-
-A [cheat sheet](heroku.md)
-
-
+### Rendering a form in a template
+#### The easy way : delegate everything to django
+```
+ <form action="/action-url/" method="post">
+   {% csrf_token %}
+   <table>
+   {{form}}
+	 <input type="submit">
+   </table>
+ </form>
+```
+Three rendering modes are available: `{{form.as_table}}`, `{{form.as_p}}` and `{{form.as_ul}}`, if none is specified it seems the default is table.
 
 ## Dumping here a few technical gore elements
 ### User authentication and permissions

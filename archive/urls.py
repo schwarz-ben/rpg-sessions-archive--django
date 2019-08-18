@@ -11,8 +11,15 @@ urlpatterns = [
     path('<int:Cycle_id>/',views.cycle_view,name='cycle'),
     path("sessions", views.sessions_view,name='sessions'),
     path('session/<int:Session_id>/',views.session_view,name='session'),
+
     path("player", views.players_view,name='players'),
     path("player/<int:Player_id>", views.player_view,name='player'),
+    path("player-add/",views.player_form_view,name='player-add'),
+    path("player-do-add/",views.player_adding,name='player-adding'),
+    path("player-mod/<int:Player_id>",views.player_mod_view,name='player-mod'),
+    path("player-del/<int:Player_id>",views.player_del_view,name='player-del'),
+
+    path("player-do-modify/<int:Player_id>",views.player_modifying,name='player-modifying'),
     path("scenario", views.scenarii_view,name='scenarii'),
     path("scenario/<int:Scenario_id>", views.scenario_view,name='scenario'),
     path("authors", views.authors_view,name='authors'),
