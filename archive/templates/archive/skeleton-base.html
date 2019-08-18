@@ -15,18 +15,25 @@
 
     <div id="page-content-container">
       <div id="page-sidebar">
-        <ul>
-          <li><a href="/archive">Games</a></li>
-          <li><a href="/archive/sessions">Sessions</a></li>
-          <li><a href="/archive/player">Players</a></li>
-          <li><a href="/archive/scenario">Scenarii</a></li>
-          <li><a href="/archive/authors">Authors</a></li>
-          <li><a href="/archive/universe">Universes</a></li>
-        </ul>
+        <div id="page-global-menu">
+          <ul>
+            <li><a href="/archive">Parties</a></li>
+            <li><a href="/archive/sessions">Sessions</a></li>
+            <li><a href="/archive/player">Joueurs</a></li>
+            <li><a href="/archive/scenario">Scénars</a></li>
+            <li><a href="/archive/authors">Auteurs</a></li>
+            <li><a href="/archive/universe">Univers</a></li>
+          </ul>
+        </div>
+        <div id="page-content-menu">
+          {% block page_content_menu %}{% endblock %}
+        </div>
       </div>
-
+      <div id="page-content-title">
+        {% block page_content_title %}{% endblock %}
+      </div>
       <div id="page-content">
-          {% block page_content %}{% endblock %}
+        {% block page_content %}{% endblock %}
       </div>
     </div>
 

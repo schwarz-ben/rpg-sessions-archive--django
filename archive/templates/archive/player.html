@@ -2,16 +2,19 @@
 
 {% block page_title %}  List of players for user: {{user.username}} {% endblock %}
 
+
+{% block page_content_title %}Détail joueur{% endblock %}
+
 {% block page_content %}
-<p>Hello {{user.username}}, here are details about your registered player:
+<div>
   <ul>
-    <li>NickName: {{player.nickName}}</li>
-    <li>Name: {{player.name}}</li>
-    <li>ForeName: {{player.forename}}</li>
-    <li>email: {{player.email}}</li>
+    <li>Surnom: {{player.nickName}}</li>
+    <li>Nom: {%if player.name%}{{player.name}}{%else%}-{%endif%}</li>
+    <li>Prénom: {%if player.forename%}{{player.forename}}{%else%}-{%endif%}</li>
+    <li>email: {%if player.email%}{{player.email}}{%else%}-{%endif%}</li>
     {%if player.linked_user%}
-    <li>Linked user: {{player.linked_user}}</li>
+    <li>Utilisateur lié: {{player.linked_user}}</li>
     {% endif %}
   </ul>
-</p>
+</div>
 {% endblock %}

@@ -4,12 +4,14 @@
 RPG Archive [{{user.username}}] -- Details for game session {{session}}
 {% endblock %}
 
+{% block page_content_title %}Détail de session{% endblock %}
+
 {% block page_content %}
 {% with cycle=session.getRelatedCycle %}
-<p class="title"> Detail view for game session: {{cycle.codename}} {{session}} </p>
-<p> Scenario: <a href="/archive/scenario/{{cycle.scenario.pk}}">{{cycle.scenario.title}}</a> <p>
+<p class="title"> Partie: {{cycle.codename}} (session n°{{session.number_in_cycle}}) </p>
+<p> Scénario: <a href="/archive/scenario/{{cycle.scenario.pk}}">{{cycle.scenario.title}}</a> <p>
 <p> Date: {{session.date}} </p>
-<p> Players:
+<p> Joueurs:
   <ul>
     {% for p in cycle.firstSession.players.all %}
     <li><a href="/archive/player/{{p.pk}}">{{p.nickName}}</li>

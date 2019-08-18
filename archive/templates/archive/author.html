@@ -2,12 +2,11 @@
 
 {% block page_title %}  RPG Archive [{{user.username}}] -- Details for author {{author.name}}{% endblock %}
 
+{% block page_content_title %}Détail auteur{% endblock %}
+
 {% block page_content %}
-<p class="title">Detail view for author</p>
-<p>
     <ul>
       <li>Name: {{author.name}}</li>
       <li>Contact: {{author.contact}}</li>
     </ul>
-</p>
 {% endblock %}

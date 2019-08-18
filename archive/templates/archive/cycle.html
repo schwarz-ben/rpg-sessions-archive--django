@@ -2,9 +2,10 @@
 
 {% block page_title %}  RPG Archive [{{user.username}}] -- Details for game cycle {{cycle}}{% endblock %}
 
+{% block page_content_title %}Détail de partie{% endblock %}
+
 {% block page_content %}
-<p class="title">Detail view for game cycle: {{cycle.codename}}</p>
-<p> scenario: <a href="/archive/scenario/{{cycle.scenario.pk}}">{{cycle.scenario.title}}</a><p>
+<p> Scénario: <a href="/archive/scenario/{{cycle.scenario.pk}}">{{cycle.scenario.title}}</a><p>
 {% if my_session_list %}
 <p> Sessions:
     <ul>

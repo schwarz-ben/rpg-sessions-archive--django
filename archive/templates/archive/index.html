@@ -2,11 +2,9 @@
 
 {% block page_title %}  Game archive for user: {{user.username}} {% endblock %}
 
+{% block page_content_title %}Liste de mes parties{% endblock %}
+
 {% block page_content %}
-{% comment %}{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'archive/style.css' %}">
-{% endcomment %}
-Hello {{user.username}}, here are your ongoing games:
 {% if my_list_of_cycles %}
     <ul>
     {% for cycle in my_list_of_cycles %}

@@ -56,6 +56,18 @@ class Session(models.Model):
         """ returns a coma separated list of nicknames for that session's players """
         return ", ".join( (p.nickName for p in self.players.all()) )
 
+    def number_in_cycle(self):
+        """ Returns the number of that session in the cycle.
+        returns 1 for the first, 2 for the second etc...
+        """
+        c = self.getRelatedCycle()
+        s = c.firstSession
+        retVal= 1
+        while s.pk != self.pk:
+            s=s.nextSession
+            retVal+=1
+        return retVal
+
     def __str__(self):
         # return "<{0}-->{1}| '{2}' >".format(self.pk, "X" if self.nextSession is None else self.nextSession.pk, str(self.findRelatedCycle()))
         # return "<{0}>".format(self.pk)

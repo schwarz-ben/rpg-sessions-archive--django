@@ -2,8 +2,9 @@
 
 {% block page_title %}  List of scenarii for user: {{user.username}} {% endblock %}
 
+{% block page_content_title %}Liste de mes scénars{% endblock %}
+
 {% block page_content %}
-Hello {{user.username}}, here are your registered scenarii:
 {% if my_scenarii %}
     <ul>
     {% for scenario in my_scenarii %}

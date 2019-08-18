@@ -66,11 +66,43 @@ margin: auto;
   color: white;
   text-decoration: none;
 }
+#page-content-menu li {
+  background-color: yellowGreen;
+  color: DarkGreen;
+  text-shadow: 3px 3px Green;
+  /* color :pink; */
+}
+#page-content-menu a:hover {
+  /* Un peu de kitch n'a jamais tué personne, que diable !*/
+  text-shadow: 1px 1px Green;
+}
+
+#page-content-title
+{
+  float: right;
+  width:80%;
+  padding: 5px;
+  border: 1px solid DarkGreen;
+  outline-style: double;
+  outline-color: Green;
+  background-color: YellowGreen;
+  color : white;
+
+  text-shadow: 1px 1px Green;
+  font-style: normal;
+  font-family: "Arial", Arial, Sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  /* padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px; */
+}
 
 #page-content {
   float: right;
   width:80%;
   padding: 5px;
+  position: relative;  top: 10px; /* shifts the whole block down */
 
   border: 1px solid DarkGreen;
   outline-style: double;

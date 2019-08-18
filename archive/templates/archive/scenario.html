@@ -2,14 +2,14 @@
 
 {% block page_title %}  Scenario {{scenario.title}} {% endblock %}
 
+{% block page_content_title %}Détail scénario{% endblock %}
+
 {% block page_content %}
-<p>Hello {{user.username}}, here are details about your registered scenario:
 <ul>
   <li>Title: {{scenario.title}}</li>
-  <li>Author: {{scenario.authors_string}}</li>  
+  <li>Author: {{scenario.authors_string}}</li>
   <li>Comments: {{scenario.comment}}</li>
   <li>References: {{scenario.reference}}</li>
   <li>Universe: <a href="/archive/universe/{{scenario.universe.pk}}">{{scenario.universe}}</a></li>
 </ul>
-</p>
 {% endblock %}

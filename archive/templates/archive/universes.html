@@ -2,8 +2,9 @@
 
 {% block page_title %}  List of universes for user: {{user.username}} {% endblock %}
 
+{% block page_content_title %}Liste de mes univers{% endblock %}
+
 {% block page_content %}
-Hello {{user.username}}, here are your registered universes:
 {% if my_universes %}
     <ul>
     {% for universe in my_universes %}

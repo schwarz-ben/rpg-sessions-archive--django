@@ -2,8 +2,9 @@
 
 {% block page_title %}  List of players for user: {{user.username}} {% endblock %}
 
+{% block page_content_title %}Liste de mes joueurs{% endblock %}
+
 {% block page_content %}
-Hello {{user.username}}, here are your registered players:
 {% if my_players %}
     <ul>
     {% for player in my_players %}
