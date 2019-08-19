@@ -2,11 +2,21 @@
 
 {% block page_title %}  Scenario {{universe.name}} {% endblock %}
 
+{% block message %}{{message}}{% endblock %}
+
 {% block page_content_title %}Détail univers{% endblock %}
 
-{% block page_content %}
+{% block page_content_menu %}
 <ul>
-  <li>Nom: {{universe.name}}</li>
-  <li>Commentaires: {{universe.comment}}</li>
+   <li><a href="/archive/universe-add">+Univers</a></li>
+   <li><a href="/archive/universe-del/{{universe.pk}}">Supprimer</a></li>
+   <li><a href="/archive/universe-mod/{{universe.pk}}">Modifier</a></li>
 </ul>
+{% endblock %}
+
+{% block page_content %}
+<table class="form">
+  <tr><th>Nom</th><td>{{universe.name}}</td></tr>
+  <tr><th>Commentaires</th><td>{{universe.comment}}</td></tr>
+</table>
 {% endblock %}

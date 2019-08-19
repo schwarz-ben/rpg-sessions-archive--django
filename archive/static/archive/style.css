@@ -127,3 +127,8 @@ margin: auto;
 #page-content li a {
     color: green;
 }
+
+table.form th {
+  text-align: left;
+  padding-right: 10px;
+}

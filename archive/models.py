@@ -31,7 +31,9 @@ class Session(models.Model):
     nextSession = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
     # This is where we connect our many to many to the Player table
-    players = models.ManyToManyField(Player)
+    players = models.ManyToManyField(Player,through="M2M_Session_Players",related_name='sessions')
+    # players = models.ManyToManyField(Player,db_table="M2M_Session_Player",related_name='sessions')
+
 
     def getPreviousSession(self):
         """returns the previous session, or None if there is none
@@ -72,6 +74,12 @@ class Session(models.Model):
         # return "<{0}-->{1}| '{2}' >".format(self.pk, "X" if self.nextSession is None else self.nextSession.pk, str(self.findRelatedCycle()))
         # return "<{0}>".format(self.pk)
         return "<{0}-->{1}>".format(self.pk, ("X" if self.nextSession is None else self.nextSession.pk) )
+
+class M2M_Session_Players(models.Model):
+     session = models.ForeignKey('Session',null=False,blank=False,on_delete=models.PROTECT)
+     player = models.ForeignKey('Player',null=False,blank=False,on_delete=models.PROTECT)
+
+
 
 class Cycle(models.Model):
     NOT_YET_STARTED = "X--"; LABEL_NOT_YET_STARTED = "Pas commencé"
@@ -122,8 +130,8 @@ class Cycle(models.Model):
 
 """Generic universe (Med fan, contemporary, ...) of specific games such as RdR, Elric, D&D..."""
 class Universe(models.Model):
-    name = models.CharField(max_length=30,blank=False)
-    comment = models.TextField(blank=True)
+    name = models.CharField(max_length=30,blank=False,null=False)
+    comment = models.TextField(blank=True,null=False,default='')
     owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -141,7 +149,7 @@ class Scenario(models.Model):
     universe = models.ForeignKey(Universe,null=False, on_delete=models.PROTECT)
     owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
     #author = models.ForeignKey('Author',on_delete=models.SET_NULL)
-    author = models.ManyToManyField('Author')
+    author = models.ManyToManyField('Author',through="M2M_Scenario_Author",related_name='authors')
 
     def author_names(self):
         """ returns the list of authors """
@@ -165,6 +173,9 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
+class M2M_Scenario_Author(models.Model):
+    scenario = models.ForeignKey('Scenario',null=False,blank=False,on_delete=models.PROTECT)
+    author = models.ForeignKey('Author',null=False,blank=False,on_delete=models.PROTECT)
 
 
 # class Question(models.Model):

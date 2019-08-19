@@ -2,7 +2,17 @@
 
 {% block page_title %}  RPG Archive [{{user.username}}] -- Details for author {{author.name}}{% endblock %}
 
+{% block message %}{{message}}{% endblock %}
+
 {% block page_content_title %}Détail auteur{% endblock %}
+
+{% block page_content_menu %}
+<ul>
+   <li><a href="/archive/author-add">+Auteur</a></li>
+   <li><a href="/archive/author-del/{{author.pk}}">Supprimer</a></li>
+   <li><a href="/archive/author-mod/{{author.pk}}">Modifier</a></li>
+</ul>
+{% endblock %}
 
 {% block page_content %}
     <ul>

@@ -1,0 +1,28 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}   {% endblock %}
+
+{% block page_content_title %}
+Formulaire univers
+{% if mode == "add" %} en addition
+{% elif mode == "mod" %} en modification
+{% endif %}
+{% endblock %}
+
+{% block page_content %}
+{% if mode == "add" %}
+<form action="/archive/universe-do-add/" method="post">
+{% elif mode == "mod" %}
+<form action="/archive/universe-do-modify/{{universe.id}}" method="post">
+{% endif %}
+  {% csrf_token %}
+  <table>
+    {{form.as_table}}
+    {% if mode == "add" %}
+      <tr><th></th><td><input type="submit" name="submit" value="Ajouter"></td></tr>
+    {% elif mode == "mod" %}
+      <tr><th></th><td><input type="submit" name="submit" value="Modifier"></td></tr>
+    {% endif %}
+  </table>
+</form>
+{% endblock %}
