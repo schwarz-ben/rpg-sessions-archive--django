@@ -13,7 +13,7 @@ RPG Archive [{{user.username}}] -- Details for game session {{session}}
 <p> Date: {{session.date}} </p>
 <p> Joueurs:
   <ul>
-    {% for p in cycle.firstSession.players.all %}
+    {% for p in session.players.all %}
     <li><a href="/archive/player/{{p.pk}}">{{p.nickName}}</li>
     {% endfor %}
   </ul>
