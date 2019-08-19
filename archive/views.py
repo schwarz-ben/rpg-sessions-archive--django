@@ -13,7 +13,7 @@ from .models import Universe, Scenario, Author, Cycle, Session, Player, User
 
 from django.forms import modelform_factory
 
-
+from django.db.models.deletion import ProtectedError
 
 # ##############################
 # #
@@ -166,6 +166,12 @@ def player_adding(request):
                      linked_user=his_linked_user,
                      owner_user=request.user)
             player.save()
+            # return HttpResponseRedirect('/archive/player/{0}'.format(player.pk))
+            template_name = 'archive/player.html'
+            context = {
+                'message' : "player <{0}> successfully added".format(player.nickName),
+                'player' : player
+            }
         except Exception as e:
             template_name = 'archive/error.html'
             context = {
@@ -173,13 +179,6 @@ def player_adding(request):
             }
             # template = loader.get_template(template_name)
             # return HttpResponse(template.render(context, request))
-        # return HttpResponseRedirect('/archive/player/{0}'.format(player.pk))
-
-        template_name = 'archive/player.html'
-        context = {
-            'message' : "player <{0}> successfully added".format(player.nickName),
-            'player' : player
-        }
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
@@ -223,20 +222,19 @@ def player_modifying(request,Player_id):
 
             try:
                 player.save()
+                # return HttpResponseRedirect('/archive/player/{0}'.format(player.pk))
+                template_name = 'archive/player.html'
+                context = {
+                    'message' : "player <({0})> successfully modified".format(player.nickName),
+                    'player' : player
+                }
             except Exception as e:
                 template_name = 'archive/error.html'
                 context = {
-                    'error_message' : "couldn't save ({0})".format(e)
+                    'error_message' : "couldn't modify player <{0}> because: ({1})".format(player.nickName,e)
                 }
                 # template = loader.get_template(template_name)
                 # return HttpResponse(template.render(context, request))
-
-            # return HttpResponseRedirect('/archive/player/{0}'.format(player.pk))
-            template_name = 'archive/player.html'
-            context = {
-                'message' : "player <({0})> successfully modified".format(player.nickName),
-                'player' : player
-            }
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
@@ -255,17 +253,25 @@ def player_del_view(request,Player_id):
         nickName=player.nickName
         try:
             player.delete()
+            my_players=Player.objects.filter( owner_user = request.user.pk ).order_by('nickName')
+            template_name = 'archive/players.html'
+            context = {
+                'message' : 'Player <{0}> successfully deleted'.format(nickName),
+                'my_players' : my_players
+            }
+        except ProtectedError as e:
+            template_name = 'archive/player.html'
+            context = {
+                'message' : "Couldn't delete player <{0}>, probably involved in at least one session ({1}).".format(nickName,e),
+                'player' : player
+            }
         except Exception as e:
+            print("ERROR")
             template_name = 'archive/error.html'
             context = {
-                'error_message' : "couldn't save ({0})".format(e)
+                'error_message' : "couldn't delete ({0})".format(e)
             }
-        my_players=Player.objects.filter( owner_user = request.user.pk ).order_by('nickName')
-        template_name = 'archive/players.html'
-        context = {
-            'message' : 'Player <{0}> successfully deleted'.format(nickName),
-            'my_players' : my_players
-        }
+
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
