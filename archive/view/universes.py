@@ -114,7 +114,7 @@ def universe_modifying(request,Universe_id):
         }
     else:
         form_name=request.POST['name'] if request.POST['name'] != '' else None
-        form_comment=request.POST['comment'] if request.POST['comment'] else None
+        form_comment=request.POST['comment'] if request.POST['comment'] else ""
         errors=[]
 
         if (form_name != universe.name) and Universe.objects.filter(owner_user = request.user.pk, name=form_name).exists() :

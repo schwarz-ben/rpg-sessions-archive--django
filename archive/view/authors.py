@@ -39,7 +39,7 @@ def author_view(request,Author_id):
 
 
 
-def author_form_view(request):
+def author_add_view(request):
     """ This function is called on creation of a new Author
     It basically renders the author FORM and sets the form 'mode' to 'add' """
     form = modelform_factory(Author, fields=['name','contact'])
@@ -91,7 +91,7 @@ def author_adding(request):
         except Exception as e:
             template_name = 'archive/error.html'
             context = {
-                'error_message' : "couldn't save author <{0}> because: ({1})".format(author.name,e)
+                'error_message' : "couldn't save author <{0}> because: ({1})".format(form_name,e)
             }
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))

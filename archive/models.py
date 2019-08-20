@@ -12,7 +12,7 @@ class Player(models.Model):
     email = models.EmailField(null=True,blank=True)
     ''' (Optional) this is allows to connect a player to another user of this application '''
     linked_user = models.ForeignKey(User, related_name='linked_player', null=True, blank=True,on_delete=models.SET_NULL)
-    owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
 
     def setNickName(self):
         if nickName is None:
@@ -29,7 +29,7 @@ class Session(models.Model):
     date = models.DateField()
     comments = models.TextField(null=True, blank=True)
     nextSession = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     # This is where we connect our many to many to the Player table
     players = models.ManyToManyField(Player,through="M2M_Session_Players",related_name='sessions')
     # players = models.ManyToManyField(Player,db_table="M2M_Session_Player",related_name='sessions')
@@ -95,7 +95,7 @@ class Cycle(models.Model):
     scenario = models.ForeignKey('Scenario',null=False,on_delete=models.PROTECT)
     comments = models.TextField(null=True, blank=True)
     state = models.CharField(max_length=3, choices=STATES, default=NOT_YET_STARTED)
-    owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
 
     def __str__(self):
         retVal = ""
@@ -132,13 +132,13 @@ class Cycle(models.Model):
 class Universe(models.Model):
     name = models.CharField(max_length=30,blank=False,null=False)
     comment = models.TextField(blank=True,null=False,default='')
-    owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
 class Scenario(models.Model):
-    title = models.CharField(max_length=45,blank=False)
+    title = models.CharField(max_length=45,blank=False,null=False)
     """General comments about the scenario itself"""
     comment = models.TextField(blank=True,
         help_text="Commentaires généraux sur le scénario")
@@ -147,7 +147,7 @@ class Scenario(models.Model):
         help_text="Provenance du scénario, où peut-on le trouver")
     #document <-- At some point we might want to be able to store the documeent
     universe = models.ForeignKey(Universe,null=False, on_delete=models.PROTECT)
-    owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     #author = models.ForeignKey('Author',on_delete=models.SET_NULL)
     author = models.ManyToManyField('Author',through="M2M_Scenario_Author",related_name='authors')
 
@@ -166,7 +166,7 @@ class Author(models.Model):
     name = models.CharField(max_length=30,blank=False)
     contact = models.TextField(blank=True,
         help_text="Comment peut-on contacter l'auteur ?")
-    owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     #
     # scenarios = models.ManyToManyField(Scenario)
 
@@ -174,7 +174,9 @@ class Author(models.Model):
         return self.name
 
 class M2M_Scenario_Author(models.Model):
-    scenario = models.ForeignKey('Scenario',null=False,blank=False,on_delete=models.PROTECT)
+    # I can delete a scenario, and by doing so I should delete all references to its authors
+    scenario = models.ForeignKey('Scenario',null=False,blank=False,on_delete=models.CASCADE)
+    # I cannot delete an author if I have a scenario from which he is an author
     author = models.ForeignKey('Author',null=False,blank=False,on_delete=models.PROTECT)
 
 
