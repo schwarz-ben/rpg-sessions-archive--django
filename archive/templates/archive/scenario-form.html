@@ -1,0 +1,52 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}RPGArchive - formulaire scénario {% endblock %}
+
+{% block page_content_title %}
+{% if mode == "add" %}
+Ajouter
+{% elif mode == "mod" %}
+Modifier
+{% endif %}
+un scenario
+{% endblock %}
+
+{% block page_content %}
+{% if mode == "add" %}
+<form action="/archive/scenario-do-add/" method="post">
+{% elif mode == "mod" %}
+<form action="/archive/scenario-do-modify/{{scenario.id}}" method="post">
+{% endif %}
+  {% csrf_token %}
+  <table class="form">
+    {% comment %}
+    <!-- <tr><td><input type="submit" name="submit" value="adding"></td><td></td></tr> -->
+    <!-- {{form.as_table}} -->
+    {% endcomment %}
+    <tr colspan="2" class="errortext">
+      {{ form.non_field_errors }}
+    </tr>
+    {% for field in form %}
+        <tr>
+          <th> {{ field.label_tag }} </th>
+          <td>
+            {% if field.errors %}<span class="errortext">{{ field.errors|safe }}</span><br/>{% endif %}
+            {{ field }}
+            {% if field.label == "Universe"%}
+            <a href="/archive/universe-add" onclick="window.open('/archive/universe-add', 'newwindow','width=300,height=250');return false;"><img src="/static/archive/img/icon-plus.svg"/></a>
+            {% comment %}<a href="/archive/universe-add" target="_blank" ><img src="/static/archive/img/icon-plus.svg"/></a>{% endcomment %}
+            {%endif%}
+            {% if field.help_text %}<br/><span class="helptext">{{ field.help_text|safe }}</span>{% endif %}
+          </td>
+        </tr>
+    {% endfor %}
+
+
+    {% if mode == "add" %}
+      <tr><th></th><td><input type="submit" name="submit" value="Ajouter"></td></tr>
+    {% elif mode == "mod" %}
+      <tr><th></th><td><input type="submit" name="submit" value="Modifier"></td></tr>
+    {% endif %}
+  </table>
+</form>
+{% endblock %}

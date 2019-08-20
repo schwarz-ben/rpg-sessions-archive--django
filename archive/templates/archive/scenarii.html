@@ -2,8 +2,15 @@
 
 {% block page_title %}  List of scenarii for user: {{user.username}} {% endblock %}
 
+{% block message %}{{message}}{% endblock %}
+
 {% block page_content_title %}Liste de mes scénars{% endblock %}
 
+{% block page_content_menu %}
+<ul>
+   <li><a href="/archive/scenario-add">+scénario</a></li>
+</ul>
+{% endblock %}
 {% block page_content %}
 {% if my_scenarii %}
     <ul>

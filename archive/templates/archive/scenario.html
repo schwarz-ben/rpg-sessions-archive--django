@@ -2,14 +2,30 @@
 
 {% block page_title %}  Scenario {{scenario.title}} {% endblock %}
 
+{% block message %}{{message}}{% endblock %}
+
 {% block page_content_title %}Détail scénario{% endblock %}
 
-{% block page_content %}
+{% block page_content_menu %}
 <ul>
-  <li>Title: {{scenario.title}}</li>
-  <li>Author: {{scenario.authors_string}}</li>
-  <li>Comments: {{scenario.comment}}</li>
-  <li>References: {{scenario.reference}}</li>
-  <li>Universe: <a href="/archive/universe/{{scenario.universe.pk}}">{{scenario.universe}}</a></li>
+   <li><a href="/archive/scenario-add">+scénario</a></li>
+   <li><a href="/archive/scenario-del/{{scenario.pk}}">Supprimer</a></li>
+   <li><a href="/archive/scenario-mod/{{scenario.pk}}">Modifier</a></li>
 </ul>
+{% endblock %}
+{% block page_content %}
+<!-- <ul>
+  <li>Titre: {{scenario.title}}</li>
+  <li>Auteurs: {{scenario.authors_string}}</li>
+  <li>Commentaires: {{scenario.comment}}</li>
+  <li>Références: {{scenario.reference}}</li>
+  <li>Univers: <a href="/archive/universe/{{scenario.universe.pk}}">{{scenario.universe}}</a></li>
+</ul> -->
+<table class=form>
+  <tr><th>Titre: </th><td>{{scenario.title}}</td></tr>
+  <tr><th>Auteurs: </th><td>{{scenario.authors_string}}</td></tr>
+  <tr><th>Commentaires: <td>{{scenario.comment}}</td></tr>
+  <tr><th>Références: </th><td>{{scenario.reference}}</td></tr>
+  <tr><th>Univers: </th><td><a href="/archive/universe/{{scenario.universe.pk}}">{{scenario.universe}}</a></tr>
+</table>
 {% endblock %}

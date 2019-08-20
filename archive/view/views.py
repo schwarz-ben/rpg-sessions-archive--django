@@ -86,35 +86,3 @@ def session_view(request,Session_id):
         }
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
-
-
-# ##############################
-# #
-# #     SCENARIO
-# #
-# ##############################
-
-def scenarii_view(request):
-    my_scenarii=Scenario.objects.filter( owner_user = request.user.pk ).order_by("universe__name","title")
-    template_name = 'archive/scenarii.html'
-    context = {
-        'my_scenarii' : my_scenarii
-        }
-    template = loader.get_template(template_name)
-    return HttpResponse(template.render(context, request))
-
-def scenario_view(request,Scenario_id):
-    scenario=Scenario.objects.get( pk=Scenario_id )
-    if scenario.owner_user.pk != request.user.pk:
-        template_name = 'archive/error.html'
-        context = {
-            'error_message' : "You are not supposed to access this page (this scenario is not yours)!"
-            " <{0}!={1}>".format(scenario.owner_user.pk,request.user.pk)
-        }
-    else:
-        template_name = 'archive/scenario.html'
-        context = {
-            'scenario' : scenario
-        }
-    template = loader.get_template(template_name)
-    return HttpResponse(template.render(context, request))

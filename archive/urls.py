@@ -2,7 +2,7 @@ from django.urls import path
 
 
 from archive import view
-from archive.view import views,players,universes,authors
+from archive.view import views,players,universes,authors,scenarii
 
 app_name = 'archive'
 urlpatterns = [
@@ -24,12 +24,17 @@ urlpatterns = [
     path("player-del/<int:Player_id>",view.players.player_del_view,name='player-del'),
     path("player-do-modify/<int:Player_id>",view.players.player_modifying,name='player-modifying'),
 
-    path("scenario", view.views.scenarii_view,name='scenarii'),
-    path("scenario/<int:Scenario_id>", view.views.scenario_view,name='scenario'),
+    path("scenario", view.scenarii.scenarii_view,name='scenarii'),
+    path("scenario/<int:Scenario_id>", view.scenarii.scenario_view,name='scenario'),
+    path("scenario-add/",view.scenarii.scenario_add_view,name='scenario-add'),
+    path("scenario-do-add/",view.scenarii.scenario_adding,name='scenario-adding'),
+    path("scenario-mod/<int:Scenario_id>",view.scenarii.scenario_mod_view,name='scenario-mod'),
+    path("scenario-del/<int:Scenario_id>",view.scenarii.scenario_del_view,name='scenario-del'),
+    path("scenario-do-modify/<int:Scenario_id>",view.scenarii.scenario_modifying,name='scenario-modifying'),
 
     path("authors", view.authors.authors_view,name='authors'),
     path("author/<int:Author_id>", view.authors.author_view,name='author'),
-    path("author-add/",view.authors.author_form_view,name='author-add'),
+    path("author-add/",view.authors.author_add_view,name='author-add'),
     path("author-do-add/",view.authors.author_adding,name='author-adding'),
     path("author-mod/<int:Author_id>",view.authors.author_mod_view,name='author-mod'),
     path("author-del/<int:Author_id>",view.authors.author_del_view,name='author-del'),
