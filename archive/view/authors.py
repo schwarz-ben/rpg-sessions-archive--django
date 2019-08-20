@@ -7,9 +7,9 @@ from archive.models import Author, User
 from django.forms import modelform_factory
 
 from django.db.models.deletion import ProtectedError
+from django.contrib.auth.decorators import login_required
 
-
-
+@login_required
 def authors_view(request):
     """ Renders the list of all authors for the connected user """
     my_authors=Author.objects.filter( owner_user = request.user.pk )
@@ -20,6 +20,7 @@ def authors_view(request):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
+@login_required
 def author_view(request,Author_id):
     """ The detailed view for an author """
     author=Author.objects.get( pk=Author_id )
@@ -38,14 +39,14 @@ def author_view(request,Author_id):
     return HttpResponse(template.render(context, request))
 
 
-
+@login_required
 def author_add_view(request):
     """ This function is called on creation of a new Author
     It basically renders the author FORM and sets the form 'mode' to 'add' """
     form = modelform_factory(Author, fields=['name','contact'])
     return render(request,'archive/author-form.html',{'form':form, 'mode':'add'})
 
-
+@login_required
 def author_mod_view(request,Author_id):
     """ This function is called upon modification of an existing author
     """
@@ -63,6 +64,7 @@ def author_mod_view(request,Author_id):
         form = Form(instance=author)
         return render(request,'archive/author-form.html',{'form':form, 'mode':'mod', 'author':author})
 
+@login_required
 def author_adding(request):
     """ This view is executed each time a user submits a new author for addition """
     form_name=request.POST['name'] if request.POST['name'] != '' else None
@@ -96,7 +98,7 @@ def author_adding(request):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
-
+@login_required
 def author_modifying(request,Author_id):
     author = Author.objects.get(pk = Author_id)
     if author.owner_user.pk != request.user.pk:
@@ -141,7 +143,7 @@ def author_modifying(request,Author_id):
     return HttpResponse(template.render(context, request))
 
 
-
+@login_required
 def author_del_view(request,Author_id):
     """ """
     author = Author.objects.get(pk = Author_id)

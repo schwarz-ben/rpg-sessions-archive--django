@@ -7,8 +7,9 @@ from archive.models import Scenario, Universe, Author, User
 from django.forms import modelform_factory
 
 from django.db.models.deletion import ProtectedError
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def scenarii_view(request):
     my_scenarii=Scenario.objects.filter( owner_user = request.user.pk ).order_by("universe__name","title")
     template_name = 'archive/scenarii.html'
@@ -18,6 +19,7 @@ def scenarii_view(request):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
+@login_required
 def scenario_view(request,Scenario_id):
     scenario=Scenario.objects.get( pk=Scenario_id )
     if scenario.owner_user.pk != request.user.pk:
@@ -34,14 +36,15 @@ def scenario_view(request,Scenario_id):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
-
+@login_required
 def scenario_add_view(request):
     """ This function is called on creation of a new Scenario
     It basically renders the scenario FORM and sets the form 'mode' to 'add' """
     form = modelform_factory(Scenario, fields=['title','comment','reference','universe','author'])
     return render(request,'archive/scenario-form.html',{'form':form, 'mode':'add'})
+    
 
-
+@login_required
 def scenario_adding(request):
     """ This view is executed each time a user submits a new author for addition """
     # 'title','comment','reference','universe','author'
@@ -86,7 +89,7 @@ def scenario_adding(request):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
-
+@login_required
 def scenario_mod_view(request,Scenario_id):
     """ This function is called upon modification of an existing Scenario
     """
@@ -104,7 +107,7 @@ def scenario_mod_view(request,Scenario_id):
         form = Form(instance=scenario)
         return render(request,'archive/scenario-form.html',{'form':form, 'mode':'mod', 'scenario':scenario})
 
-
+@login_required
 def scenario_modifying(request,Scenario_id):
     scenario = Scenario.objects.get(pk = Scenario_id)
     if scenario.owner_user.pk != request.user.pk:
@@ -158,7 +161,7 @@ def scenario_modifying(request,Scenario_id):
     return HttpResponse(template.render(context, request))
 
 
-
+@login_required
 def scenario_del_view(request,Scenario_id):
     """ """
     scenario = Scenario.objects.get(pk = Scenario_id)

@@ -7,7 +7,9 @@ from archive.models import Session, Player, User
 from django.forms import modelform_factory
 
 from django.db.models.deletion import ProtectedError
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def players_view(request):
     my_players=Player.objects.filter( owner_user = request.user.pk ).order_by('nickName')
     template_name = 'archive/players.html'
@@ -17,6 +19,7 @@ def players_view(request):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
+@login_required
 def player_view(request,Player_id):
     player=Player.objects.get( pk=Player_id )
     if player.owner_user.pk != request.user.pk:
@@ -33,10 +36,12 @@ def player_view(request,Player_id):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
+@login_required
 def player_form_view(request):
     playerForm = modelform_factory(Player, fields=['nickName', 'name', 'forename','email', 'linked_user'])
     return render(request,'archive/player-form.html',{'form':playerForm, 'mode':'add'})
 
+@login_required
 def player_mod_view(request,Player_id):
     player = Player.objects.get(pk=Player_id)
     if player.owner_user.pk != request.user.pk:
@@ -52,6 +57,7 @@ def player_mod_view(request,Player_id):
         playerForm = PlayerForm(instance=player)
         return render(request,'archive/player-form.html',{'form':playerForm, 'mode':'mod', 'player':player})
 
+@login_required
 def player_adding(request):
     """ This view is executed each time a usr submits a new player for addition """
     his_nickName=request.POST['nickName']
@@ -97,7 +103,7 @@ def player_adding(request):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
-
+@login_required
 def player_modifying(request,Player_id):
     player = Player.objects.get(pk = Player_id)
     if player.owner_user.pk != request.user.pk:
@@ -154,7 +160,7 @@ def player_modifying(request,Player_id):
     return HttpResponse(template.render(context, request))
 
 
-
+@login_required
 def player_del_view(request,Player_id):
     """ """
     player = Player.objects.get(pk = Player_id)

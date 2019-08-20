@@ -7,10 +7,10 @@ from archive.models import Universe, User
 from django.forms import modelform_factory
 
 from django.db.models.deletion import ProtectedError
+from django.contrib.auth.decorators import login_required
 
 
-
-
+@login_required
 def universes_view(request):
 
     """ Renders the complete list of universes for a registered user """
@@ -25,7 +25,7 @@ def universes_view(request):
 
 
 
-
+@login_required
 def universe_view(request,Universe_id):
 
     """ Renders the detailed view of a given universe """
@@ -45,14 +45,14 @@ def universe_view(request,Universe_id):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
-
+@login_required
 def universe_form_view(request):
     """ This function is called on creation of a new Universe
     It basically renders the universe FORM and sets the form 'mode' to 'add' """
     form = modelform_factory(Universe, fields=['name','comment'])
     return render(request,'archive/universe-form.html',{'form':form, 'mode':'add'})
 
-
+@login_required
 def universe_mod_view(request,Universe_id):
     """ This function is colled upon modification of an existing Universe
     """
@@ -70,6 +70,7 @@ def universe_mod_view(request,Universe_id):
         form = Form(instance=universe)
         return render(request,'archive/universe-form.html',{'form':form, 'mode':'mod', 'universe':universe})
 
+@login_required
 def universe_adding(request):
     """ This view is executed each time a user submits a new univrese for addition """
     form_name=request.POST['name'] if request.POST['name'] != '' else None
@@ -103,7 +104,7 @@ def universe_adding(request):
     template = loader.get_template(template_name)
     return HttpResponse(template.render(context, request))
 
-
+@login_required
 def universe_modifying(request,Universe_id):
     universe = Universe.objects.get(pk = Universe_id)
     if universe.owner_user.pk != request.user.pk:
@@ -151,7 +152,7 @@ def universe_modifying(request,Universe_id):
     return HttpResponse(template.render(context, request))
 
 
-
+@login_required
 def universe_del_view(request,Universe_id):
     """ """
     universe = Universe.objects.get(pk = Universe_id)
