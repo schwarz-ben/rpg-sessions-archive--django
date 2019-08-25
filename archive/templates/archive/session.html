@@ -21,7 +21,7 @@ RPG Archive [{{user.username}}] -- Details for game session {{session}}
 
 {% block page_content %}
 {% with cycle=session.getRelatedCycle %}
-<p class="title"> Partie: {{cycle.codename}} (session n°{{session.number_in_cycle}}) </p>
+<p> Partie: <a href="/archive/cycle/{{cycle.pk}}">{{cycle.codename}}</a> (session n°{{session.number_in_cycle}}) </p>
 <p> Scénario: <a href="/archive/scenario/{{cycle.scenario.pk}}">{{cycle.scenario.title}}</a> <p>
 <p> Date: {{session.date}} </p>
 <p> Joueurs:
