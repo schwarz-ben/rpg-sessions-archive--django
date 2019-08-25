@@ -96,7 +96,7 @@ class Cycle(models.Model):
     STATES = [ (NOT_YET_STARTED,LABEL_NOT_YET_STARTED), (RUNNING,LABEL_RUNNING),
         (ABANDONED,LABEL_ABANDONED), (CLOSED,LABEL_CLOSED) ]
     codename = models.CharField(max_length=30,blank=False)
-    firstSession = models.ForeignKey(Session, on_delete=models.CASCADE, null=True)
+    firstSession = models.ForeignKey(Session, on_delete=models.SET_NULL, null=True)
     # RQ: used the class name 'Scenario' instead of the class itself because it is
     #     not yet defined here
     scenario = models.ForeignKey('Scenario',null=False,on_delete=models.PROTECT)
@@ -137,6 +137,16 @@ class Cycle(models.Model):
         raise NotImplemented()
         return []
 
+    def gatherAllSessions(self):
+        """ returns the list of sessions attached to this cycle
+
+        Sessions are provided from the first (older one) to the last"""
+        sl = []
+        s = self.firstSession
+        while s is not None:
+            sl.append(s)
+            s=s.nextSession
+        return sl
 
 
 # # relation ManyToMany joueur *participe à* session
