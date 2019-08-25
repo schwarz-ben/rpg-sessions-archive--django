@@ -2,15 +2,22 @@
 
 {% block page_title %}  List of sessions for user: {{user.username}} {% endblock %}
 
+{% block message %}{{message}}{% endblock %}
+
 {% block page_content_title %}Liste de mes sessions{% endblock %}
 
+{% block page_content_menu %}
+<ul>
+   <li><a href="/archive/cycle-add">+cycle</a></li>
+</ul>
+{% endblock %}
 {% block page_content %}
-{% if my_list_of_sessions %}
+{% if my_sessions %}
     <ul>
-    {% for session in my_list_of_sessions %}
+    {% for session in my_sessions %}
     {% with cycle=session.getRelatedCycle %}
     <li>
-      (<a href="/archive/session/{{session.pk}}">{{ session.pk }}</a>)
+      <a href="/archive/session/{{session.pk}}">({{ session.pk }}){{session}}</a>
       {{session.date}}
       ( {{ session.players_string }} )
       [[ {{cycle.codename}} -- {{cycle.scenario.title}} ]]
@@ -19,6 +26,6 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p>No authors found for user {{username}}.</p>
+    <p>No sessions found for user {{username}}.</p>
 {% endif %}
 {% endblock %}

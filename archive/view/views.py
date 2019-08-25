@@ -14,75 +14,22 @@ from archive.models import Universe, Scenario, Author, Cycle, Session, Player, U
 from django.forms import modelform_factory
 
 from django.db.models.deletion import ProtectedError
-
-# ##############################
-# #
-# #     CYCLE
-# #
-# ##############################
-
-class IndexView(LoginRequiredMixin, generic.ListView):
-    template_name = 'archive/index.html'
-    context_object_name = 'my_list_of_cycles'
-
-    def get_queryset(self):
-        """Return all cycles that belong to the connected user
-        """
-        # return Cycle.objects.filter(owner_user = user.pk)
-        return Cycle.objects.filter(owner_user = self.request.user.pk)
+from django.contrib.auth.decorators import login_required
+# class IndexView(LoginRequiredMixin, generic.ListView):
+#     template_name = 'archive/index.html'
+#     context_object_name = 'my_list_of_cycles'
+#
+#     def get_queryset(self):
+#         """Return all cycles that belong to the connected user
+#         """
+#         # return Cycle.objects.filter(owner_user = user.pk)
+#         return Cycle.objects.filter(owner_user = self.request.user.pk)
+@login_required
+def index(request):
+    template = loader.get_template("archive/index.html")
+    context={}
+    return HttpResponse(template.render(context, request))
 
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect("/archive")
-
-def cycle_view(request,Cycle_id):
-    # retrieving the cycle or redirect to a 404 page
-    cycle = get_object_or_404(Cycle, pk=Cycle_id)
-    if cycle.owner_user.pk != request.user.pk:
-        # print ("{0}!={1}".format(cycle.owner_user,request.user.pk))
-        template_name = 'archive/error.html'
-        context = {
-            'error_message' : "You are not supposed to access this page (this cycle is not yours)!"
-            " <{0}!={1}>".format(cycle.owner_user.pk,request.user.pk)
-        }
-    else:
-        template_name = 'archive/cycle.html'
-        context = {
-            'cycle' : cycle,
-            'my_session_list' : cycle.getRelatedSessions()
-        }
-    template = loader.get_template(template_name)
-    return HttpResponse(template.render(context, request))
-
-# ##############################
-# #
-# #     SESSIONS
-# #
-# ##############################
-
-def sessions_view(request):
-    sessions=Session.objects.filter( owner_user = request.user.pk ).order_by('-date')
-    template_name = 'archive/sessions.html'
-    context = {
-        'my_list_of_sessions' : sessions
-        }
-    template = loader.get_template(template_name)
-    return HttpResponse(template.render(context, request))
-
-
-
-def session_view(request,Session_id):
-    session = get_object_or_404(Session, pk=Session_id)
-    if session.owner_user.pk != request.user.pk:
-        template_name = 'archive/error.html'
-        context = {
-            'error_message' : "You are not supposed to access this page (this cycle is not yours)!"
-            " <{0}!={1}>".format(cycle.owner_user.pk,request.user.pk)
-        }
-    else:
-        template_name = 'archive/session.html'
-        context = {
-            'session' : session
-        }
-    template = loader.get_template(template_name)
-    return HttpResponse(template.render(context, request))

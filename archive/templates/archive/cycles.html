@@ -1,0 +1,25 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}  Game archive for user: {{user.username}} {% endblock %}
+
+{% block message %}{{message}}{% endblock %}
+
+{% block page_content_title %}Liste de mes parties{% endblock %}
+
+{% block page_content_menu %}
+<ul>
+   <li><a href="/archive/cycle-add">+cycle</a></li>
+</ul>
+{% endblock %}
+
+{% block page_content %}
+{% if my_cycles %}
+    <ul>
+    {% for cycle in my_cycles %}
+    <li><a href="/archive/cycle/{{cycle.pk}}">{{ cycle.codename }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No rpg archive found for user {{username}}.</p>
+{% endif %}
+{% endblock %}

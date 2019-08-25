@@ -2,19 +2,32 @@ from django.urls import path
 
 
 from archive import view
-from archive.view import views,players,universes,authors,scenarii
+from archive.view import views,players,universes,authors,scenarii,cycles,sessions
 
 app_name = 'archive'
 urlpatterns = [
-    # ex: /archive/
-    #path('', views.index, name='index'),
+
+    path('', views.index, name='index'),
     path('logout',view.views.logout_view,name='logout'),
 
-    path('', view.views.IndexView.as_view(), name='index'),
-    path('<int:Cycle_id>/',view.views.cycle_view,name='cycle'),
+    path('cycle', view.cycles.cycles_view, name='index'),
+    path('cycle/<int:Cycle_id>',view.cycles.cycle_view,name='cycle'),
+    path('cycle-add',view.cycles.cycle_add_view,name='cycle-add'),
+    path("cycle-do-add/",view.cycles.cycle_adding,name='cycle-adding'),
+    path("cycle-mod/<int:Cycle_id>",view.cycles.cycle_mod_view,name='cycle-mod'),
+    path("cycle-do-modify/<int:Cycle_id>",view.cycles.cycle_modifying,name='cycle-modifying'),
+    path("cycle-del/<int:Cycle_id>",view.cycles.cycle_del_view,name='cycle-del'),
+    path("cycle-add-session/<int:Cycle_id>",view.cycles.add_session,name='cycle-add-session'),
+    path("cycle-do-add-session/<int:Cycle_id>",view.cycles.do_add_session,name='cycle-addding-session'),
 
-    path("sessions", view.views.sessions_view,name='sessions'),
-    path('session/<int:Session_id>/',view.views.session_view,name='session'),
+    path("sessions", view.sessions.sessions_view,name='sessions'),
+    path('session/<int:Session_id>/',view.sessions.session_view,name='session'),
+    path("session-del/<int:Session_id>",view.sessions.session_del_view,name='session-del'),
+    path('session-add/<int:Session_id>',view.sessions.session_add_view,name='session-add'),
+    path("session-do-add/<int:Session_id>",view.sessions.session_adding,name='session-adding'),
+    path("session-mod/<int:Session_id>",view.sessions.session_mod_view,name='session-mod'),
+    path("session-do-modify/<int:Session_id>",view.sessions.session_modifying,name='session-modifying'),
+
 
     path("player", view.players.players_view,name='players'),
     path("player/<int:Player_id>", view.players.player_view,name='player'),

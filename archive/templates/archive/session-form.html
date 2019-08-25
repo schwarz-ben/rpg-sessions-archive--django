@@ -1,0 +1,36 @@
+{% extends "archive/skeleton-base.html" %}
+
+{% block page_title %}RPGArchive - formulaire session {% endblock %}
+
+{% block page_content_title %}
+{% if mode == "add" %}
+  Ajouter une session
+{% elif mode == "mod" %}
+Modifier une session
+{% elif mode == "first" %}
+Première session
+{% endif %}
+{% endblock %}
+
+
+{% block page_content %}
+{% if mode == "add" %}
+<form action="/archive/session-do-add/{{Session_id}}" method="post">
+{% elif mode == "mod" %}
+<form action="/archive/session-do-modify/{{session.pk}}" method="post">
+{% elif mode == "first" %}
+<form action="/archive/cycle-do-add-session/{{Cycle_id}}" method="post">
+{% endif %}
+  {% csrf_token %}
+  <table class="form">
+    {{form.as_table}}
+    {% if mode == "add" %}
+      <tr><th></th><td><input type="submit" name="submit" value="Ajouter"></td></tr>
+    {% elif mode == "mod" %}
+      <tr><th></th><td><input type="submit" name="submit" value="Modifier"></td></tr>
+    {% elif mode == "first" %}
+        <tr><th></th><td><input type="submit" name="submit" value="Ajouter"></td></tr>
+    {% endif %}
+  </table>
+</form>
+{% endblock %}

@@ -4,7 +4,20 @@
 RPG Archive [{{user.username}}] -- Details for game session {{session}}
 {% endblock %}
 
+{% block message %}{{message}}{% endblock %}
+
 {% block page_content_title %}Détail de session{% endblock %}
+
+{% block page_content_menu %}
+<ul>
+   <li><a href="/archive/cycle-add">+cycle</a></li>
+   {% if session.isLast%}
+   <li><a href="/archive/session-add/{{session.pk}}">+session(suite)</a></li>
+   {% endif %}
+   <li><a href="/archive/session-del/{{session.pk}}">Supprimer</a></li>
+   <li><a href="/archive/session-mod/{{session.pk}}">Modifier</a></li>
+</ul>
+{% endblock %}
 
 {% block page_content %}
 {% with cycle=session.getRelatedCycle %}

@@ -70,13 +70,20 @@ class Session(models.Model):
             retVal+=1
         return retVal
 
+    def isLast(self):
+        """Is this session the last session of the cycle
+
+        returns True if this session is the last session of its cycle."""
+        return self.nextSession is None
+
     def __str__(self):
         # return "<{0}-->{1}| '{2}' >".format(self.pk, "X" if self.nextSession is None else self.nextSession.pk, str(self.findRelatedCycle()))
         # return "<{0}>".format(self.pk)
         return "<{0}-->{1}>".format(self.pk, ("X" if self.nextSession is None else self.nextSession.pk) )
 
 class M2M_Session_Players(models.Model):
-     session = models.ForeignKey('Session',null=False,blank=False,on_delete=models.PROTECT)
+     # session = models.ForeignKey('Session',null=False,blank=False,on_delete=models.PROTECT)
+     session = models.ForeignKey('Session',null=False,blank=False,on_delete=models.CASCADE)
      player = models.ForeignKey('Player',null=False,blank=False,on_delete=models.PROTECT)
 
 
@@ -113,6 +120,17 @@ class Cycle(models.Model):
             retList.append(s)
             s=s.nextSession
         return retList
+
+    def getLastSession(self):
+        ''' returns the last session of this cycle
+
+        if the cycle doesn't have a session, returns None '''
+        s = self.firstSession
+        prev=s
+        while s is not None:
+            prev=s
+            s=s.nextSession
+        return prev
 
     def gatherAllPlayers(self):
         """ returns the list of players that attented at least one session """

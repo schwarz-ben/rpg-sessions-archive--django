@@ -2,12 +2,23 @@
 
 {% block page_title %}  RPG Archive [{{user.username}}] -- Details for game cycle {{cycle}}{% endblock %}
 
+{% block message %}{{message}}{% endblock %}
+
 {% block page_content_title %}Détail de partie{% endblock %}
 
+{% block page_content_menu %}
+<ul>
+   <li><a href="/archive/cycle-add">+cycle</a></li>
+   <li><a href="/archive/cycle-del/{{cycle.pk}}">supprimer</a></li>
+   <li><a href="/archive/cycle-mod/{{cycle.pk}}">modifier</a></li>
+   <li><a href="/archive/cycle-add-session/{{cycle.pk}}">+session</a></li>
+</ul>
+{% endblock %}
 {% block page_content %}
+<p>Partie: {{cycle.codename}} ({{cycle.state}})</p>
 <p> Scénario: <a href="/archive/scenario/{{cycle.scenario.pk}}">{{cycle.scenario.title}}</a><p>
-{% if my_session_list %}
 <p> Sessions:
+  {% if my_session_list %}
     <ul>
     {% for session in my_session_list %}
       <li>
@@ -17,8 +28,11 @@
       </li>
     {% endfor %}
     </ul>
+    {% else %}
+    Aucune session enregistrée pour ce cycle
+    {% endif %}
 </p>
-{% else %}
-    <p>No rpg archive detected for user {{username}}.</p>
-{% endif %}
+
+<p>Commentaires: {{cycle.comments}}</p>
+
 {% endblock %}
